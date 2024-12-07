@@ -15,6 +15,7 @@ public enum AppError {
      */
 
     SUCCESS("200", "成功"),
+    FAILED("500", "失败"),
 
     /**
      * 操作异常
@@ -37,9 +38,9 @@ public enum AppError {
      * 业务异常
      * 50001
      */
-    ADD_FAILED("50001", "新增失败"),
-    UPDATE_FAILED("50002", "修改失败"),
-    DELETE_FAILED("50003", "删除失败"),
+    ADD_FAILED("50001", "操作新增失败"),
+    UPDATE_FAILED("50002", "操作修改失败"),
+    DELETE_FAILED("50003", "操作删除失败"),
 
 
     ;

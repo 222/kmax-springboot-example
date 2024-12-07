@@ -11,6 +11,11 @@ public class AppException extends RuntimeException {
     private final String code;
     private final String msg;
 
+    public AppException(String msg) {
+        this.code = AppError.FAILED.getCode();
+        this.msg = msg;
+    }
+
     public AppException(String code, String msg) {
         this.code = code;
         this.msg = msg;
