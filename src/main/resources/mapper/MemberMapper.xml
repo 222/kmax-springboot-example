@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kmax.example.mapper.MemberMapper">
+
+    <resultMap type="com.kmax.example.model.Member" id="MemberMap">
+        <result property="memberId" column="member_id" jdbcType="INTEGER"/>
+        <result property="realName" column="real_name" jdbcType="VARCHAR"/>
+        <result property="idCard" column="id_card" jdbcType="VARCHAR"/>
+        <result property="position" column="position" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="telephone" column="telephone" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+        <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP"/>
+        <result property="createdBy" column="created_by" jdbcType="INTEGER"/>
+        <result property="updatedBy" column="updated_by" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="MemberMap">
+        SELECT `member_id`,
+               `real_name`,
+               `id_card`,
+               `position`,
+               `phone`,
+               `telephone`,
+               `remark`,
+               `created_time`,
+               `updated_time`,
+               `created_by`,
+               `updated_by`
+        FROM member
+        WHERE member_id = #{memberId}
+    </select>
+
+    <select id="search" resultMap="MemberMap">
+        SELECT
+        `member_id`, `real_name`, `id_card`, `position`, `phone`, `telephone`, `remark`, `created_time`, `updated_time`,
+        `created_by`, `updated_by`
+        FROM member
+        <where>
+            <if test="memberId != null">
+                AND `member_id` = #{memberId}
+            </if>
+            <if test="realName != null and realName != ''">
+                AND `real_name` = #{realName}
+            </if>
+            <if test="idCard != null and idCard != ''">
+                AND `id_card` = #{idCard}
+            </if>
+            <if test="position != null and position != ''">
+                AND `position` = #{position}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND `phone` = #{phone}
+            </if>
+            <if test="telephone != null and telephone != ''">
+                AND `telephone` = #{telephone}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND `remark` = #{remark}
+            </if>
+            <if test="createdTime != null">
+                AND `created_time` = #{createdTime}
+            </if>
+            <if test="updatedTime != null">
+                AND `updated_time` = #{updatedTime}
+            </if>
+            <if test="createdBy != null">
+                AND `created_by` = #{createdBy}
+            </if>
+            <if test="updatedBy != null">
+                AND `updated_by` = #{updatedBy}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" keyProperty="memberId" useGeneratedKeys="true">
+        INSERT INTO member(`real_name`, `id_card`, `position`, `phone`, `telephone`, `remark`, `created_by`,`updated_by`)
+        VALUES (#{realName}, #{idCard}, #{position}, #{phone}, #{telephone}, #{remark}, #{createdBy}, #{updatedBy})
+    </insert>
+
+    <insert id="inserts" parameterType="java.util.List" keyProperty="memberId" useGeneratedKeys="true">
+        INSERT INTO member(`real_name`, `id_card`, `position`, `phone`, `telephone`, `remark`, `created_by`,`updated_by`)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.realName}, #{item.idCard}, #{item.position}, #{item.phone}, #{item.telephone}, #{item.remark},
+            #{item.createdBy}, #{item.updatedBy})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.kmax.example.model.Member">
+        UPDATE member
+        <set>
+            <if test="realName != null and realName != ''">
+                `real_name` = #{realName},
+            </if>
+            <if test="idCard != null and idCard != ''">
+                `id_card` = #{idCard},
+            </if>
+            <if test="position != null and position != ''">
+                `position` = #{position},
+            </if>
+            <if test="phone != null and phone != ''">
+                `phone` = #{phone},
+            </if>
+            <if test="telephone != null and telephone != ''">
+                `telephone` = #{telephone},
+            </if>
+            <if test="remark != null and remark != ''">
+                `remark` = #{remark},
+            </if>
+            <if test="createdBy != null">
+                `created_by` = #{createdBy},
+            </if>
+            <if test="updatedBy != null">
+                `updated_by` = #{updatedBy},
+            </if>
+        </set>
+        WHERE `member_id` = #{memberId}
+    </update>
+
+    <update id="updates" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            UPDATE member
+            <set>
+                <if test="item.realName != null and item.realName != ''">
+                    `real_name` = #{item.realName},
+                </if>
+                <if test="item.idCard != null and item.idCard != ''">
+                    `id_card` = #{item.idCard},
+                </if>
+                <if test="item.position != null and item.position != ''">
+                    `position` = #{item.position},
+                </if>
+                <if test="item.phone != null and item.phone != ''">
+                    `phone` = #{item.phone},
+                </if>
+                <if test="item.telephone != null and item.telephone != ''">
+                    `telephone` = #{item.telephone},
+                </if>
+                <if test="item.remark != null and item.remark != ''">
+                    `remark` = #{item.remark},
+                </if>
+                <if test="item.createdBy != null">
+                    `created_by` = #{item.createdBy},
+                </if>
+                <if test="item.updatedBy != null">
+                    `updated_by` = #{item.updatedBy},
+                </if>
+            </set>
+            WHERE `member_id` = #{item.memberId}
+        </foreach>
+    </update>
+
+    <delete id="deleteById" parameterType="java.util.List">
+        DELETE FROM member WHERE `member_id` IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="exist" resultType="java.lang.Boolean">
+        SELECT EXISTS(SELECT 1
+                      FROM member
+                      WHERE `field` = #{field}) AS record_exists
+    </select>
+
+</mapper>
+

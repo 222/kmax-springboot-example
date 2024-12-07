@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kmax.example.mapper.TaskMemberMapper">
+
+    <resultMap type="com.kmax.example.model.TaskMember" id="TaskMemberMap">
+        <result property="taskMemberId" column="task_member_id" jdbcType="INTEGER"/>
+        <result property="taskId" column="task_id" jdbcType="INTEGER"/>
+        <result property="memberId" column="member_id" jdbcType="INTEGER"/>
+        <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+        <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP"/>
+        <result property="createdBy" column="created_by" jdbcType="INTEGER"/>
+        <result property="updatedBy" column="updated_by" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="TaskMemberMap">
+        SELECT `task_member_id`,
+               `task_id`,
+               `member_id`,
+               `created_time`,
+               `updated_time`,
+               `created_by`,
+               `updated_by`
+        FROM task_member
+        WHERE task_member_id = #{taskMemberId}
+    </select>
+
+    <select id="search" resultMap="TaskMemberMap">
+        SELECT
+        `task_member_id`, `task_id`, `member_id`, `created_time`, `updated_time`, `created_by`, `updated_by`
+        FROM task_member
+        <where>
+            <if test="taskMemberId != null">
+                AND `task_member_id` = #{taskMemberId}
+            </if>
+            <if test="taskId != null">
+                AND `task_id` = #{taskId}
+            </if>
+            <if test="memberId != null">
+                AND `member_id` = #{memberId}
+            </if>
+            <if test="createdTime != null">
+                AND `created_time` = #{createdTime}
+            </if>
+            <if test="updatedTime != null">
+                AND `updated_time` = #{updatedTime}
+            </if>
+            <if test="createdBy != null">
+                AND `created_by` = #{createdBy}
+            </if>
+            <if test="updatedBy != null">
+                AND `updated_by` = #{updatedBy}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" keyProperty="taskMemberId" useGeneratedKeys="true">
+        INSERT INTO task_member(`task_id`, `member_id`, `created_by`, `updated_by`)
+        VALUES (#{taskId}, #{memberId}, #{createdBy}, #{updatedBy})
+    </insert>
+
+    <insert id="inserts" parameterType="java.util.List" keyProperty="taskMemberId" useGeneratedKeys="true">
+        INSERT INTO task_member(`task_id`, `member_id`, `created_by`, `updated_by`)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.taskId}, #{item.memberId}, #{item.createdBy}, #{item.updatedBy})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.kmax.example.model.TaskMember">
+        UPDATE task_member
+        <set>
+            <if test="taskId != null">
+                `task_id` = #{taskId},
+            </if>
+            <if test="memberId != null">
+                `member_id` = #{memberId},
+            </if>
+            <if test="createdBy != null">
+                `created_by` = #{createdBy},
+            </if>
+            <if test="updatedBy != null">
+                `updated_by` = #{updatedBy},
+            </if>
+        </set>
+        WHERE `task_member_id` = #{taskMemberId}
+    </update>
+
+    <update id="updates" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            UPDATE task_member
+            <set>
+                <if test="item.taskId != null">
+                    `task_id` = #{item.taskId},
+                </if>
+                <if test="item.memberId != null">
+                    `member_id` = #{item.memberId},
+                </if>
+                <if test="item.createdBy != null">
+                    `created_by` = #{item.createdBy},
+                </if>
+                <if test="item.updatedBy != null">
+                    `updated_by` = #{item.updatedBy},
+                </if>
+            </set>
+            WHERE `task_member_id` = #{item.taskMemberId}
+        </foreach>
+    </update>
+
+    <delete id="deleteById" parameterType="java.util.List">
+        DELETE FROM task_member WHERE `task_member_id` IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="exist" resultType="java.lang.Boolean">
+        SELECT EXISTS(SELECT 1
+                      FROM task_member
+                      WHERE `field` = #{field}) AS record_exists
+    </select>
+
+</mapper>
+
