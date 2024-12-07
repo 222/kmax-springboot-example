@@ -4,6 +4,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -13,6 +15,8 @@ import java.sql.Connection;
  * @date 2024-12-01 20:25:23
  */
 @SpringBootApplication
+@EnableScheduling
+@EnableAsync
 public class KmaxApplication {
 
     public static void main(String[] args) {
