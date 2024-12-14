@@ -2,6 +2,7 @@ package com.kmax.example.common;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,11 +10,14 @@ import java.util.List;
  * @date 2024/12/1 16:02
  */
 @Data
-public class Page<T> {
+public class Page<T> implements Serializable {
     private List<T> list;
     private Integer pageNum = 1;
     private Integer pageSize = 10;
     private Long total = 0L;
+
+    public Page() {
+    }
 
     public Page(List list) {
         if (list instanceof com.github.pagehelper.Page<?>) {
