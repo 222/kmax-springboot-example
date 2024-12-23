@@ -31,6 +31,7 @@ public class KmaxApplication {
         System.setProperty("pagehelper.banner", "false");
         return args -> {
             try (Connection ignored = dataSource.getConnection()) {
+
             }
         };
     }

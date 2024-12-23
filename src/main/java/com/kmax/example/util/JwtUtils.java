@@ -11,9 +11,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.kmax.example.common.LoginSession;
 import com.kmax.example.error.AppException;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.system.ApplicationPid;
 
 import java.util.Date;
 import java.util.Map;
@@ -24,6 +21,8 @@ import java.util.Map;
  */
 @Slf4j
 public class JwtUtils {
+
+    private JwtUtils() {}
 
     public static String createToken(Integer expires, String secret, LoginSession loginSession) {
         try {
@@ -38,7 +37,7 @@ public class JwtUtils {
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
             log.error("createToken error：", exception);
-            throw new AppException("500", "签发用户令牌失败");
+            throw new AppException("签发用户令牌失败");
         }
     }
 
@@ -61,10 +60,9 @@ public class JwtUtils {
             loginSession.setUsername(username);
             loginSession.setUserId(userId);
             return loginSession;
-
         } catch (JWTVerificationException exception) {
             log.error("createToken error：", exception);
-            throw new AppException("500", "签发用户令牌失败");
+            throw new AppException("签发用户令牌失败");
         }
     }
 }

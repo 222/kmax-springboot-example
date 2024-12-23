@@ -1,6 +1,7 @@
 package com.kmax.example.common;
 
 import lombok.Data;
+
 import java.io.Serializable;
 
 /**

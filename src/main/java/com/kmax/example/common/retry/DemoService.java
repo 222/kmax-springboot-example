@@ -3,8 +3,6 @@ package com.kmax.example.common.retry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * @author youping.tan
  * @date 2024/12/4 15:06

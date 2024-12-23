@@ -1,9 +1,6 @@
 package com.kmax.example.common;
 
-import com.github.pagehelper.Page;
 import com.kmax.example.error.AppError;
-
-import java.util.List;
 
 /**
  * @author youping.tan
